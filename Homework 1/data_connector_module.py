@@ -1,4 +1,4 @@
-#Data Connector Module
+# Data Connector Module
 # - Loads API keys from environment variables
 # - Connects to Alpaca’s Market Data API
 # - Downloads historical data for a symbol you choose
