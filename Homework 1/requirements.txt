@@ -1,1 +1,4 @@
-# add requirements as we go
+# add requirements as we go (Probably:)
+pandas
+numpy
+streamlit
