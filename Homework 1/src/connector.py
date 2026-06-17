@@ -13,4 +13,3 @@ def get_historical_client():
 if __name__ == '__main__':
     client = get_historical_client()
     print(client)
-    
