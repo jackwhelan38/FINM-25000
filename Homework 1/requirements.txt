@@ -1,4 +1,6 @@
-# add requirements as we go (Probably:)
+alpaca-py
+python-dotenv
 pandas
 numpy
+plotly
 streamlit
