@@ -2,6 +2,8 @@ import streamlit as st
 from datetime import datetime
 from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
 from src.historical import build_plot, fetch_bars, get_day_data
+from src.streamer import stream_quotes, start_stream, get_latest
+import time
 
 st.title('Homework #1: Mini Market Data Terminal')
 
@@ -45,5 +47,28 @@ if data_type == 'Historical':
             st.plotly_chart(intra_day_fig, use_container_width=True)
                 
 elif data_type == 'Live':
-    st.write('Coming Soon...')
-    # need to build live capabilities
+    for key in ['available_days', 'ticker']:
+        st.session_state.pop(key, None)
+    st.subheader(f'Live Quotes: {ticker}')
+
+    # GUARD: start the stream exactly ONCE per ticker, not on every rerun.
+    # Without this, each Streamlit rerun spawns a new WebSocket thread and
+    # you hit Alpaca's one-connection limit.
+    if st.session_state.get('streaming_ticker') != ticker:
+        start_stream(ticker)
+        st.session_state['streaming_ticker'] = ticker
+
+    # CONSUMER: read the latest snapshot the stream thread wrote.
+    quote = get_latest()
+
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Bid", quote['bid'] if quote['bid'] is not None else "—")
+    col2.metric("Ask", quote['ask'] if quote['ask'] is not None else "—")
+    col3.metric("Last", quote['last'] if quote['last'] is not None else "—")
+
+    if quote['bid'] is None:
+        st.caption("Waiting for quotes… (market may be closed — opens 9:30am–4pm ET, Mon–Fri)")
+
+    # AUTO-REFRESH: redraw every second so the metrics tick as quotes arrive.
+    time.sleep(1)
+    st.rerun()
