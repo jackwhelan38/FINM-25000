@@ -22,8 +22,8 @@ goog_data.head()
 # 2
 signals = pd.DataFrame(index=goog_data.index)
 
-signals['short_ma'] = goog_data['Close'].rolling(window=40).mean()
-signals['long_ma'] = goog_data['Close'].rolling(window=100).mean()
+signals['short_ma'] = goog_data['Close'].rolling(window=5).mean()
+signals['long_ma'] = goog_data['Close'].rolling(window=40).mean()
 
 # 3
 signals['signal'] = np.select(
