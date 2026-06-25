@@ -56,7 +56,7 @@ streamlit run app.py
 
 ## Demo
 
-📹 Video walkthrough: [LINK TO DEMO VIDEO]
+📹 Video walkthrough: (https://drive.google.com/file/d/1CSmh9AExcytpXjWPFSq8mpPmJvFE6at-/view?usp=drive_link)
 
 ## Notes & Limitations
 
